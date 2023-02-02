@@ -1,0 +1,48 @@
+<h1>Kies bij elk gezicht de juiste naam</h1>
+<%= form_with(url: process_questionnaire_path, scope: :answer, local: true) do |form| %>
+<ul>
+	<% @faces_random_order.each_with_index  do |face, id| %>
+	<li>
+		<div class="faceimagecontainer2" id="face_<%= id %>">
+			<img class="faceimage2" src="<%= face['url'] %>" />
+			
+			<div class="faceimage2select">
+				<%= collection_select(:answer, face['id'] + @random_addition_face_id, Face.all, :id, :name, prompt: true) %>
+			</div>
+			<button style="font-size: 26px" class="volgende"  type="button" onclick="process_step(<%= id %>, <%= face['id'] + @random_addition_face_id %>);"  id="volgende_<%= face['url'] %>">Volgende</button>
+		</div>
+	</li>
+
+	<% end %>
+</ul>
+  <div id="next_step">
+  	<p>Dat waren alle gezichten. Druk op 'Volgende' om naar het laatste gedeelte te gaan.</p>
+  <div class="faceimagecontainer2">
+    <%= form.submit "Volgende", { :class => "volgende" } %>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+ var start = async function() {
+ $("#next_step").hide(); 
+  for (let i = 1; i < 13; i++) {
+     $("#face_" + i.toString()).hide();
+   }
+ }
+ var process_step = async function(x, y) {
+ 	value  = $("#answer_" + y.toString()).find(":selected").val();
+ 	if (!value){
+ 		return
+ 	}
+ 	$("#face_" + x.toString()).hide();
+ 	if (x == 11) {
+ 		$("#next_step").show();
+ 	} else {
+ 		$("#face_" + (x + 1).toString()).show();
+ 	}
+
+ }
+ start();
+
+</script>

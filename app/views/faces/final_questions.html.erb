@@ -1,0 +1,31 @@
+<h1>Nog enkele vragen...</h1>
+  <div class="userinfocontainer">
+    <%= form_with(url: process_final_questions_path, scope: :participant, local: true) do |form| %>
+      <p2><%= form.label 'Heb je muziek gehoord tijdens het bekijken van de gezichten?' %></p2><br>
+      <%= form.select :has_heard_music, options_for_select([['Selecteer een antwoord'], ['Ja'], ['Nee']]), :required => true %>
+
+      <div style="display: none" id="music_questions">
+      <p2><%= form.label 'Hoe vond je de muziek? (Geef een cijfer van 1-10)' %></p2><br>
+      <%= form.number_field :rating, { min: 1, max: 10, :class => "textfield" } %>
+
+      <p2><%= form.label 'Welk gevoel kreeg je bij de muziek? (Bijv. kalm, alert, vrolijk, boos, gestrest)' %></p2><br>
+      <%= form.text_area :feeling, { :class => "textfield" } %>
+    </div>
+      <p2><%= form.label 'Heb je nog opmerkingen? (Niet verplicht)' %></p2><br>
+      <%= form.text_area :comment, { :class => "textfield" } %>
+
+      <%= form.submit "Afronden", { :class => "volgende" } %>
+
+  </div>
+    <script type="text/javascript">
+    $("select option:first").attr("disabled", "true");
+    $('#participant_has_heard_music').on('change', function() {
+      if (this.value == "Ja") {
+        console.log("roel is dik");
+        $("#music_questions").css("display", "block");
+      } else {
+        $("#music_questions").css("display", "none");
+      }
+    });
+  </script>
+  <% end %>

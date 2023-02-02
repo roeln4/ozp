@@ -1,0 +1,44 @@
+<p>Probeer de naam bij elk gezicht te onthouden</p>
+
+	<% @faces.each_with_index do |face, id| %>
+		<div class="faceimagecontainer1" id="face_<%= id %>">
+			<img class="faceimage1" src="<%= face['url'] %>" />
+			<div class="textnexttoface1"><%= face['name'] %></div>
+		</div>
+	<% end %>
+
+  <script type="text/javascript">
+  var start = async function() {
+    for (let i = 0; i < 20; i++) {
+      $("#face_" + i.toString()).fadeIn()
+      await new Promise(r => setTimeout(r, 1000)); // CHANGE TO 10000 MS
+      $("#face_" + i.toString()).fadeOut();
+      if(i == 11){
+        $.ajax({
+
+            url : '/lock_answers',
+            type : 'GET',
+            dataType:'json',
+            success : function(data) {              
+             	window.location.href = "/gather_user_information";
+            },
+            error : function(request,error)
+            {
+                console.log(error)
+            }
+        });
+      }
+      await new Promise(r => setTimeout(r, 500));
+    }
+
+  }
+
+  start();
+
+  </script>
+
+  <% if @participant.music_enabled %>
+
+  <div style="display: none"><iframe width="300" height="60" src="https://vocaroo.com/embed/1ce9N397Y4iC?autoplay=1" frameborder="0" allow="autoplay"></iframe></div>
+	
+	<% end %>

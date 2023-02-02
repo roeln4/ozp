@@ -1,0 +1,41 @@
+<p>Vul alsjeblieft je gegevens in, kijk daarna onderstaande video.</p>
+  <div class="userinfocontainer">
+    <%= form_with(url: process_user_information_path, scope: :participant, local: true) do |form| %>
+      <p2><%= form.label 'Wat is je leeftijd?' %></p2><br>
+      <%= form.select :age, options_for_select([['Selecteer je leeftijd'], ['18-24'], ['24-30'], ['30-50'], ['50+'], ['Zeg ik liever niet']]), :required => true %>
+      <% @participant.errors.full_messages_for(:age).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+
+      <p2><%= form.label 'Wat is je geslacht?' %></p2><br>
+      <%= form.select :gender, options_for_select([['Selecteer je geslacht'], ['Mannelijk'], ['Vrouwelijk'], ['Anders'], ['Zeg ik liever niet']]), :required => true %>
+      <% @participant.errors.full_messages_for(:gender).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+
+      <p2><%= form.label 'Wat beschrijft je huidige positie het best?' %></p2><br>
+      <%= form.select :current_study, options_for_select([['Selecteer je positie'], ['Mbo'], ['Hbo'], ['Wo bachelor'], ['Wo master'], ['Werkende'], ['Werkzoekende'], ['Zeg ik liever niet']]), :required => true %>
+      <% @participant.errors.full_messages_for(:current_study).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+
+      <iframe width="100%" class="ytvideo" height="472,5" src="https://www.youtube.com/embed/cJLOZ05areQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br>
+  
+      <%= form.submit "Volgende", { :class => "volgende_show" } %>
+
+  </div>
+
+  <script type="text/javascript">
+    $("select option:first").attr("disabled", "true");
+    $("#participant_gender option:first").attr("disabled", "true");
+    $("#participant_current_study option:first").attr("disabled", "true");
+    $("#participant_gender").prop('required',true);
+    $("#participant_current_study").prop('required',true);
+    $("#participant_current_age").prop('required',true);
+
+    setTimeout(function(){
+      $('.volgende_show').show();
+    }, 6000); // CHANGE TO 60000 MS
+
+  </script>
+<% end %>
